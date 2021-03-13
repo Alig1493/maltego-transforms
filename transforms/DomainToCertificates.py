@@ -42,9 +42,7 @@ class DomainToCertificates(DiscoverableTransform):
         :param maltego_response:
         :return:
         """
-        maltego_response.addUIMessage(len(json_response))
         for certificate_dict in json_response:
-            maltego_response.addUIMessage(certificate_dict)
             entity = maltego_response.addEntity(
                 "certificate_information",
                 certificate_dict.get("name_value", "")

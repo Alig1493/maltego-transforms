@@ -21,9 +21,9 @@ class DomainToCertificates(DiscoverableTransform):
             "CN": domain_name,
             "output": "json"
         })
-        if not response.status_code == 200:
-            maltego_response.addUIMessage("crt.sh server replied with: {}".format(response.text))
-        return cls.format_response(response.json(), maltego_response)
+        if response.status_code == 200:
+            return cls.format_response(response.json(), maltego_response)
+        maltego_response.addUIMessage("crt.sh server replied with: {}".format(response.text))
 
     @classmethod
     def format_response(cls, json_response, maltego_response):

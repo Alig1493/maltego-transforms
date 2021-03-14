@@ -8,10 +8,13 @@ class CertificateToIssuerName(DiscoverableTransform):
     """
 
     @classmethod
-    def get_cname(cls, issuer_phrase: str):
-        tokens = issuer_phrase.split(",")
-        final_token = tokens[-1]
-        return final_token.split("=")[-1]
+    def get_cname(cls, issuer_phrase: str, maltego_response):
+        tokens = issuer_phrase.split("CN=")
+        try:
+            return tokens[-1]
+        except IndexError as ie:
+            maltego_response.addUIMessage(ie)
+            return ""
 
     @classmethod
     def create_entities(cls, request, response):
@@ -21,4 +24,6 @@ class CertificateToIssuerName(DiscoverableTransform):
         :return:
         """
         issuer_phrase = request.getProperty("issuer_name")
-        response.addEntity(Phrase, value=cls.get_cname(issuer_phrase))
+        issuer_name = cls.get_cname(issuer_phrase, response)
+        if issuer_name:
+            response.addEntity(Phrase, value=issuer_name)

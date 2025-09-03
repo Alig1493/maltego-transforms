@@ -14,6 +14,9 @@ The project is run using python-slim docker images and I've used the default doc
 projects. You can this command to run build and run the project in the background:
 > docker-compose up --build -d
 
+Use this command to got to service shell:
+> docker-compose exec <service-name> bash
+
 Use this command to go to the logs:
 > docker-compose logs -f
 
